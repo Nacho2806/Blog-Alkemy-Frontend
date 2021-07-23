@@ -25,8 +25,7 @@ class Home extends Component {
     }
 
     deletePost = async (postId) =>{
-        await axios.delete('https://jsonplaceholder.typicode.com/posts' + postId);
-        this.props.dispatch({type:'DELETE_POST', id: postId})
+        await axios.delete('https://jsonplaceholder.typicode.com/posts/' + postId);
     }
 
     render(){
@@ -50,15 +49,15 @@ class Home extends Component {
                                     <td>{post.userId}</td>
                                     <td>{post.title}</td>
                                     <td>
-                                    <Link to={"/details/" + post._id} className="btn btn-primary" style={{margin: '4px'}}>
+                                    <Link to={"/details/" + post.id} className="btn btn-primary" style={{margin: '4px'}}>
                                         <i className="material-icons"> 
                                             info</i>
                                     </Link>      
-                                    <Link to={"/edit/" + post._id} className="btn btn-warning" style={{margin: '4px'}}>
+                                    <Link to={"/edit/" + post.id} className="btn btn-warning" style={{margin: '4px'}}>
                                         <i className="material-icons">
                                             edit</i>
                                     </Link>        
-                                    <button onClick={() => this.deletePost(post._id)} className="btn btn-danger">
+                                    <button onClick={() =>this.props.dispatch({type:'DELETE_POST', id:this.props.post.id})} className="btn btn-danger">
                                         <i className="material-icons">delete</i> 
                                     </button>
                                     </td>
@@ -73,5 +72,11 @@ class Home extends Component {
             </div>  
         )
     }
-}       
-export default connect()(Home);
+}            
+
+const mapStateToProps = (state) => {
+    return {
+        posts: state
+    }
+}
+export default connect(mapStateToProps)(Home);
