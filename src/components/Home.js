@@ -25,7 +25,7 @@ class Home extends Component {
     }
 
     deletePost = async (postId) =>{
-        await axios.delete('https://jsonplaceholder.typicode.com/posts' + postId);
+        await axios.delete('https://jsonplaceholder.typicode.com/posts/' + postId);
         this.props.dispatch({type:'DELETE_POST', id: postId})
     }
 
