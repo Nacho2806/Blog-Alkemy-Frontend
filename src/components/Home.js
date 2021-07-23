@@ -11,7 +11,6 @@ class Home extends Component {
           userId:'',  
           title: '',  
           _id: '',
-          posts: [ ],
         };
     }
     
@@ -21,12 +20,12 @@ class Home extends Component {
 
     getPosts = async () =>{
         const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
-        this.setState({posts: res.data});
+        this.props.setPosts(res.data)
     }
 
     deletePost = async (postId) =>{
         await axios.delete('https://jsonplaceholder.typicode.com/posts/' + postId);
-        this.props.dispatch({type:'DELETE_POST', id: postId})
+        this.props.deletePost(postId)
     }
 
     render(){
@@ -44,9 +43,9 @@ class Home extends Component {
                             </thead>
                             <tbody>
                             { 
-                            this.state.posts.map(post => {
+                            this.props.posts.map(post => {
                             return (
-                                <tr>
+                                <tr key={post.id}>
                                     <td>{post.userId}</td>
                                     <td>{post.title}</td>
                                     <td>
@@ -73,5 +72,19 @@ class Home extends Component {
             </div>  
         )
     }
-}       
-export default connect()(Home);
+}            
+
+const mapStateToProps = (state) => {
+    return {
+        posts: state
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setPosts: posts => dispatch({ type: 'GET_POSTS', payload: posts }),
+        deletePost: postId => dispatch({ type:'DELETE_POST', payload: postId })
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

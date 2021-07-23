@@ -6,17 +6,17 @@ export default class Navigation extends Component {
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
-          <Link className="navbar-brand" to="/"><i class="fas fa-blog"></i> Blog Alkemy</Link>
+          <Link className="navbar-brand" to="/"><i className="fas fa-blog"></i> Blog Alkemy</Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to="/home"><i class="fas fa-home"></i> Home</Link>
+                <Link className="nav-link active" aria-current="page" to="/home"><i className="fas fa-home"></i> Home</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/create"><i class="fas fa-plus"></i> New Post</Link>
+                <Link className="nav-link" to="/create"><i className="fas fa-plus"></i> New Post</Link>
               </li>
             </ul>
           </div>
