@@ -16,7 +16,7 @@ export default class Navigation extends Component {
                 <Link className="nav-link active" aria-current="page" to="/home"><i class="fas fa-home"></i> Home</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/create"><i class="fas fa-address-card"></i> New Post</Link>
+                <Link className="nav-link" to="/create"><i class="fas fa-plus"></i> New Post</Link>
               </li>
             </ul>
           </div>
