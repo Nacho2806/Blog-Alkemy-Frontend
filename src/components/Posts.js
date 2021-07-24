@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import { connect } from 'react-redux'
 
-export default class Posts extends Component {
+class Posts extends Component {
 
     constructor(){
         super()
         this.state={
           title: '',
-          description: '',
+          body: '',
           userId: '',
           _id: '',
           editing: false
@@ -16,12 +17,10 @@ export default class Posts extends Component {
 
     async componentDidMount(){
         if (this.props.match.params.id) {
-            console.log(this.props.match.params.id)
-            const res = await axios.get('https://jsonplaceholder.typicode.com/posts' + this.props.match.params.id);
-            console.log(res.data)
+            const res = await axios.get('https://jsonplaceholder.typicode.com/posts/' + this.props.match.params.id);
             this.setState({
                 title: res.data.title,
-                description: res.data.description,
+                body: res.data.body,
                 userId: res.data.userId,
                 editing: true
             });
@@ -39,19 +38,21 @@ export default class Posts extends Component {
         if(this.state.editing){
             const updatedPost = {
                 title: this.state.title,
-                description: this.state.description,
-                userId: this.state.userId
+                body: this.state.body,
             };
             await axios.put('https://jsonplaceholder.typicode.com/posts' + this.state._id, updatedPost);
+            this.props.editPost(updatedPost)
         } else{
             const newPost = {
                 title: this.state.title,
-                description: this.state.description,
+                body: this.state.body,
                 userId: this.state.userId
             };
             await axios.post('https://jsonplaceholder.typicode.com/posts', newPost);
+            this.props.newPost(newPost)
+
         }
-        window.location.href = '/home';
+        //window.location.href = '/home';
     }
     
     render(){
@@ -77,9 +78,9 @@ export default class Posts extends Component {
                                 type="text"
                                 className="form-control"
                                 placeholder="Description"
-                                name="description"
+                                name="body"
                                 onChange={this.onInputChange}
-                                value={this.state.description}
+                                value={this.state.body}
                                 required>
                             </textarea>
                         </div>
@@ -103,4 +104,20 @@ export default class Posts extends Component {
             </div>
         )
     }
-}            
+}
+
+const mapStateToProps = (state) => {
+    return {
+        posts: state
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setPosts: posts => dispatch({ type: 'GET_POSTS', payload: posts }),
+        newPost: newPost => dispatch({ type:'ADD_POST', payload: newPost }),
+        editPost: editPost => dispatch({ type:'EDIT_POST', payload: editPost })
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Posts);

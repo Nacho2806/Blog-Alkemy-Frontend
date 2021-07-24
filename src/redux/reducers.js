@@ -1,9 +1,17 @@
 const reducer = (state = [], action) => {
   switch(action.type) {
-    /*case 'ADD_POST':
-      return state.concat([action.data]);*/
+    case 'GET_POSTS':
+      return action.payload;
+
+    case 'ADD_POST':
+      return state.concat([ ...state, action.payload]);
+
     case 'DELETE_POST':
-      return state.filter((post)=>post.id !== action.id);
+      return state.filter((post)=>post.id !== action.payload);
+
+    /*case 'EDIT_POST':
+      return state.find((post)=>post.id === action.payload); */
+       
     default:
       return state;
   }
