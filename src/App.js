@@ -9,6 +9,7 @@ import store from './redux/store';
 import Navigation from './components/Navigation';
 import Welcome from './components/Welcome';
 import Home from './components/Home';
+import Posts from './components/Posts';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
        <div className="container p-4">
         <Route path="/" exact component={Welcome}/>
         <Route path="/home" exact component={Home}/>
+        <Route path="/create" exact component={Posts}/>
+        <Route path="/edit/:id" exact component={Posts}/>        
        </div>
       </Router>
     </Provider>
