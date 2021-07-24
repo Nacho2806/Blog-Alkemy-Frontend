@@ -2,12 +2,6 @@ const reducer = (state = [], action) => {
   switch(action.type) {
     case 'GET_POSTS':
       return action.payload;
-<<<<<<< HEAD
-    case 'ADD_POST':
-      return state.concat([ ...state, action.payload]);
-    case 'DELETE_POST':
-      return state.filter((post)=>post.id !== action.payload);
-=======
 
     case 'ADD_POST':
       return state.concat([ ...state, action.payload]);
@@ -30,7 +24,6 @@ const reducer = (state = [], action) => {
         } else return post;
       })  
 
->>>>>>> post-forms
     default:
       return state;
   }
