@@ -41,7 +41,8 @@ class Posts extends Component {
                 body: this.state.body,
             };
             await axios.put('https://jsonplaceholder.typicode.com/posts' + this.state._id, updatedPost);
-            this.props.editPost(updatedPost)
+            this.props.editPost(this.state._id)
+            this.props.updatePost(updatedPost)
         } else{
             const newPost = {
                 title: this.state.title,
@@ -50,9 +51,8 @@ class Posts extends Component {
             };
             await axios.post('https://jsonplaceholder.typicode.com/posts', newPost);
             this.props.newPost(newPost)
-
         }
-        //window.location.href = '/home';
+        window.location.href = '/home';
     }
     
     render(){
@@ -114,9 +114,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setPosts: posts => dispatch({ type: 'GET_POSTS', payload: posts }),
         newPost: newPost => dispatch({ type:'ADD_POST', payload: newPost }),
-        editPost: editPost => dispatch({ type:'EDIT_POST', payload: editPost })
+        editPost: editPost => dispatch({ type:'EDIT_POST', payload: editPost }),
+        updatePost: editPost => dispatch({ type:'UPDATE_POST', payload: editPost })
     }
 }
 
