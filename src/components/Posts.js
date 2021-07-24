@@ -52,7 +52,6 @@ class Posts extends Component {
             await axios.post('https://jsonplaceholder.typicode.com/posts', newPost);
             this.props.newPost(newPost)
         }
-        window.location.href = '/home';
     }
     
     render(){
