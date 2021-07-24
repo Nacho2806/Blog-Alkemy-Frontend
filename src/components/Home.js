@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 import { connect } from 'react-redux';
+import swal from 'sweetalert';
 
 class Home extends Component {
 
@@ -11,6 +12,7 @@ class Home extends Component {
           userId:'',  
           title: '',  
           _id: '',
+          onePost: [ ],
         };
     }
     
@@ -24,10 +26,29 @@ class Home extends Component {
     }
 
     deletePost = async (postId) =>{
-        await axios.delete('https://jsonplaceholder.typicode.com/posts/' + postId);
-        this.props.deletePost(postId)
-    }
+        swal({
+            title: 'Delete Post',
+            text: 'Are you sure you want to delete this post?',
+            icon: 'error',
+            buttons: ['No', 'Yes']
+        }).then(async respuesta =>{
+            if (respuesta) {
+            await axios.delete('https://jsonplaceholder.typicode.com/posts/' + postId);
+            this.props.deletePost(postId)
+            swal({text: 'The post was successfully deleted',
+            icon: 'success'})
+        }
+    })
+  }
 
+    detailsPost = async (postId) =>{
+        const dataPost = await axios.get('https://jsonplaceholder.typicode.com/posts/' + postId);
+        this.setState({onePost: dataPost.data});
+        swal(
+            {title:`${this.state.onePost.title}`,
+            text: `${this.state.onePost.body}`,
+            icon: 'info'})
+    }
     render(){
         return(
             <div className="container">
@@ -49,9 +70,9 @@ class Home extends Component {
                                     <td>{post.userId}</td>
                                     <td>{post.title}</td>
                                     <td>
-                                    <Link to={"/details/" + post.id} className="btn btn-primary" style={{margin: '4px'}}>
+                                    <button onClick={() => this.detailsPost(post.id)} className="btn btn-primary" style={{margin: '4px'}}>
                                         details
-                                    </Link>      
+                                    </button>      
                                     <Link to={"/edit/" + post.id} className="btn btn-warning" style={{margin: '4px'}}>
                                         <i className="material-icons">
                                             edit</i>
@@ -82,7 +103,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
     return {
         setPosts: posts => dispatch({ type: 'GET_POSTS', payload: posts }),
-        deletePost: postId => dispatch({ type:'DELETE_POST', payload: postId })
+        deletePost: postId => dispatch({ type:'DELETE_POST', payload: postId }),
     }
 }
 
